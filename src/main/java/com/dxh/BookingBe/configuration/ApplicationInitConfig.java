@@ -1,0 +1,52 @@
+package com.dxh.BookingBe.configuration;
+
+import com.dxh.BookingBe.entity.Role;
+import com.dxh.BookingBe.entity.User;
+import com.dxh.BookingBe.repo.RoleRepository;
+import com.dxh.BookingBe.repo.UserRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.HashSet;
+
+@Configuration
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
+public class ApplicationInitConfig {
+
+    PasswordEncoder passwordEncoder;
+
+    @Bean
+    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository){
+        return args -> {
+            if (userRepository.findByUsername("admin").isEmpty()){
+                var roles = new HashSet<com.dxh.BookingBe.entity.Role>();
+                Role role= Role.builder()
+                        .name(com.dxh.BookingBe.enums.Role.ADMIN.name())
+                        .description("Admin hotel")
+                        .build();
+                roleRepository.save(role);
+
+                roles.add(role);
+
+                User user = User.builder()
+                        .username("admin")
+                        .phoneNumber("0911581476")
+                        .password(passwordEncoder.encode("admin"))
+                        .roles(roles)
+                        .build();
+
+                userRepository.save(user);
+                //log
+                log.warn("admin user has been created with default password: admin, please change it");
+            }
+        };
+    }
+}

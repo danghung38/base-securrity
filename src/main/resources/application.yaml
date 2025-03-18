@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /hotel
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/bookingHotel"
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  signerKey: "lyLJRYJjZ4oqRBKB9qe9tDxgxbfq42E7hW0cM5PJkoQM4GSdYOvWeTpriGHGb9xF"
+  valid-duration: 1 # in second
+  refreshable-duration: 1 # in seconds
