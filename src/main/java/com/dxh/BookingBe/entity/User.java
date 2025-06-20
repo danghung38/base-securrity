@@ -45,7 +45,5 @@ public class User extends AbstractEntity<Long> {
     @ManyToMany
     Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<Booking> bookings = new ArrayList<>();
 
 }

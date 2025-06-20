@@ -25,8 +25,24 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    private final String[] PUBLIC_ENDPOINTS = {"/users",
+//    private final String[] PUBLIC_ENDPOINTS = {"/users",
+//            "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+//    };
+
+    private final String[] PUBLIC_ENDPOINTS = {
             "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    };
+
+    private final String[] API_DOC_ENDPOINTS = {
+            "/api/swagger-ui.html",
+            "/api/swagger-ui/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/api/v3/api-docs/**",
+            "/api/swagger-resources/**",
+            "/api/webjars/**",
+            "/users/confirm-email"
+
     };
 
 
@@ -40,6 +56,7 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                                .requestMatchers(API_DOC_ENDPOINTS).permitAll()
                                 //phân quyền trên config/hoặc trên method
 //                        .requestMatchers(HttpMethod.GET,"/users").hasRole(Role.ADMIN.name())
 //                        .hasAuthority("ROLE_ADMIN") //hasRole và hasAu có thể thay cho nhau

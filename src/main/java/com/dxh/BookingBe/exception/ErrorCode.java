@@ -21,6 +21,7 @@ public enum ErrorCode {
     UNAUTHENTICATED(401, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(403, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(400, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    UPLOAD_FAIL(400, "Error uploading file to S3", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

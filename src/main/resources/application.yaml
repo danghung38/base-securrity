@@ -1,19 +1,47 @@
 server:
   port: 8080
   servlet:
-    context-path: /hotel
+    context-path: /api
 
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB   # Giới hạn dung lượng tối đa của mỗi file (ở đây là 10MB)
+      max-request-size: 20MB  # Giới hạn dung lượng tối đa của toàn bộ request
   datasource:
-    url: "jdbc:mysql://localhost:3306/bookingHotel"
+    url: "jdbc:mysql://localhost:3306/base_jwt"
     username: root
     password: 123456
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  sendGrid:
+    apiHung: ${SENDGRID_KEY}
+#    apiKey: ${SENDGRID_API_KEY}
+    fromEmail: mkvht8@gmail.com
+    templateId: d-d82439f102b74bc2b935fed16fa0548f
+    verificationLink: http://localhost:8080/api/users/confirm-email
 
 jwt:
-  signerKey: "lyLJRYJjZ4oqRBKB9qe9tDxgxbfq42E7hW0cM5PJkoQM4GSdYOvWeTpriGHGb9xF"
+  signerKey: ${JWT_KEY}
   valid-duration: 1 # in second
   refreshable-duration: 1 # in seconds
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+openapi:
+  service:
+    api-docs: backend-service
+    server: http://localhost:${server.port}/api
+    title: Backend service
+    version: 1.0.0
+
+aws:
+  s3.secret-key: ${S3_SECRET_KEY}
+  s3.access-key: ${S3_ACCESS_KEY}
+  s3.bucket-name: "hung-hotel-images"

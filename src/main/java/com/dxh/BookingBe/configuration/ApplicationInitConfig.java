@@ -4,13 +4,17 @@ import com.dxh.BookingBe.entity.Role;
 import com.dxh.BookingBe.entity.User;
 import com.dxh.BookingBe.repo.RoleRepository;
 import com.dxh.BookingBe.repo.UserRepository;
+import com.sendgrid.SendGrid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
@@ -18,8 +22,21 @@ import java.util.HashSet;
 @Configuration
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @Slf4j
 public class ApplicationInitConfig {
+
+    //lấy tt ng tạo
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return new AuditorAwareImpl();
+    }
+
+//    gửi thư
+    @Bean
+    public SendGrid sendGrid(@Value("${spring.sendGrid.apiHung}") String apiKey) {
+        return new SendGrid(apiKey);
+    }
 
     PasswordEncoder passwordEncoder;
 

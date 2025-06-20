@@ -1,10 +1,10 @@
 package com.dxh.BookingBe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Getter
 @Setter
@@ -12,15 +12,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "roles")
 @Entity
-public class Role extends AbstractEntity<Long>{
-    @Column(nullable = false, unique = true)
+public class Permission{
+    @Id
     String name;
 
     @Column(name = "description")
     String description;
-
-    @ManyToMany
-    Set<Permission> permissions;
 }
