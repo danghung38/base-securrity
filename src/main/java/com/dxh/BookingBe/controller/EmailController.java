@@ -1,7 +1,9 @@
 package com.dxh.BookingBe.controller;
 
 import com.dxh.BookingBe.service.EmailService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j(topic = "EMAIL-CONTROLLER")
 public class EmailController {
 
-    private final EmailService emailService;
+    EmailService emailService;
 
     @GetMapping("/send-email")
     public void sendEmail(@RequestParam String to,@RequestParam String subject,@RequestParam String body) {

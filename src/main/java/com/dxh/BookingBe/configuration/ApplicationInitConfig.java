@@ -47,9 +47,14 @@ public class ApplicationInitConfig {
                 var roles = new HashSet<com.dxh.BookingBe.entity.Role>();
                 Role role= Role.builder()
                         .name(com.dxh.BookingBe.enums.Role.ADMIN.name())
-                        .description("Admin hotel")
+                        .description("Admin")
                         .build();
                 roleRepository.save(role);
+                Role role2= Role.builder()
+                        .name(com.dxh.BookingBe.enums.Role.USER.name())
+                        .description("User")
+                        .build();
+                roleRepository.save(role2);
 
                 roles.add(role);
 

@@ -9,6 +9,7 @@ import com.dxh.BookingBe.dto.response.ApiResponse;
 import com.dxh.BookingBe.dto.response.AuthenticationResponse;
 import com.dxh.BookingBe.dto.response.IntrospectResponse;
 import com.dxh.BookingBe.service.impl.AuthenticationService;
+import com.dxh.BookingBe.service.interfac.IAuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +29,12 @@ import java.text.ParseException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class AuthenticationController {
-    AuthenticationService authenticationService;
+    IAuthenticationService iAuthenticationService;
 
     //tạo token khi login
     @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        var result = authenticationService.authenticate(request);
+        var result = iAuthenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .code(HttpStatus.OK.value())
                 .result(result)
@@ -44,7 +45,7 @@ public class AuthenticationController {
     @PostMapping("/introspect")
     ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request)
             throws ParseException, JOSEException {
-        var result = authenticationService.introspect(request);
+        var result = iAuthenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .code(HttpStatus.OK.value())
                 .result(result)
@@ -54,7 +55,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     ApiResponse<Void> logout(@RequestBody LogoutRequest request)
             throws ParseException, JOSEException {
-        authenticationService.logout(request);
+        iAuthenticationService.logout(request);
         return ApiResponse.<Void>builder()
                 .code(HttpStatus.OK.value())
                 .build();
@@ -64,7 +65,7 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
             throws ParseException, JOSEException {
-        var result = authenticationService.refreshToken(request);
+        var result = iAuthenticationService.refreshToken(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .code(HttpStatus.OK.value())
                 .result(result)

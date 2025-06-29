@@ -1,5 +1,6 @@
 package com.dxh.BookingBe.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "roles")
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role extends AbstractEntity<Long>{
     @Column(nullable = false, unique = true)
     String name;

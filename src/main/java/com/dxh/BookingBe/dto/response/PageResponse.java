@@ -11,6 +11,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IntrospectResponse implements Serializable {
-    boolean valid;
+public class PageResponse<T> implements Serializable {
+
+    int pageNo;
+    int pageSize;
+    int totalPage;
+    long totalElements;
+    T items;
 }

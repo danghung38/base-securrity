@@ -1,6 +1,13 @@
 package com.dxh.BookingBe.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Gender {
 
-    MALE, FEMALE, OTHER
+    @JsonProperty("male")
+    MALE,
+    @JsonProperty("female")
+    FEMALE,
+    @JsonProperty("other")
+    OTHER
 }

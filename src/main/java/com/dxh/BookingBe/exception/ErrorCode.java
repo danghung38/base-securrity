@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
+import java.util.Date;
+
 @Getter
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -22,15 +24,19 @@ public enum ErrorCode {
     UNAUTHORIZED(403, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(400, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     UPLOAD_FAIL(400, "Error uploading file to S3", HttpStatus.BAD_REQUEST),
+    INVALID_REQUEST(400, "Invalid request", HttpStatus.BAD_REQUEST),
+    INVALID_FORMATDOB(400, "Dob must be format yyyy/MM/dd", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;
         this.statusCode = statusCode;
+//        this.timestamp = new Date();
     }
 
     private int code;
     private String message;
+//    private Date timestamp;
     private HttpStatusCode statusCode;
 }

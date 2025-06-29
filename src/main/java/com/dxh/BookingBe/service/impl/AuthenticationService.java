@@ -13,6 +13,7 @@ import com.dxh.BookingBe.exception.AppException;
 import com.dxh.BookingBe.exception.ErrorCode;
 import com.dxh.BookingBe.repo.InvalidatedTokenRepository;
 import com.dxh.BookingBe.repo.UserRepository;
+import com.dxh.BookingBe.service.interfac.IAuthenticationService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -40,7 +41,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
     UserRepository userRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
 
@@ -58,6 +59,7 @@ public class AuthenticationService {
     protected long REFRESHABLE_DURATION;
 
 //    kiểm tra token
+    @Override
     public IntrospectResponse introspect(IntrospectRequest request)
             throws JOSEException, ParseException {
 
@@ -76,6 +78,7 @@ public class AuthenticationService {
     }
 
     //đăng nhập và tạo token
+    @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -147,6 +150,7 @@ public class AuthenticationService {
 
 
     //token sắp hết hạn thì gia hạn
+    @Override
     public AuthenticationResponse refreshToken(RefreshRequest request)
             throws ParseException, JOSEException {
         var signedJWT = verifyToken(request.getToken(),true);
@@ -177,6 +181,7 @@ public class AuthenticationService {
     }
 
 
+    @Override
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         try {
             var signToken = verifyToken(request.getToken(), true);

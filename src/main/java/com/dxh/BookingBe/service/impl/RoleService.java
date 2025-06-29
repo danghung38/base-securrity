@@ -6,6 +6,7 @@ import com.dxh.BookingBe.dto.response.RoleResponse;
 import com.dxh.BookingBe.mapper.RoleMapper;
 import com.dxh.BookingBe.repo.PermissionRepository;
 import com.dxh.BookingBe.repo.RoleRepository;
+import com.dxh.BookingBe.service.interfac.IRoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,11 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class RoleService {
+public class RoleService implements IRoleService {
     RoleRepository roleRepository;
     PermissionRepository permissionRepository;
     RoleMapper roleMapper;
 
+    @Override
     public RoleResponse create(RoleRequest request){
         var role = roleMapper.toRole(request);
 
@@ -35,6 +37,7 @@ public class RoleService {
         return roleMapper.toRoleResponse(role);
     }
 
+    @Override
     public List<RoleResponse> getAll(){
         return roleRepository.findAll()
                 .stream()
@@ -42,6 +45,7 @@ public class RoleService {
                 .toList();
     }
 
+    @Override
     public void delete(Long role){
         roleRepository.deleteById(role);
     }

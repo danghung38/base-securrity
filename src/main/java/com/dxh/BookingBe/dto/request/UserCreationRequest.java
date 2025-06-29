@@ -2,6 +2,7 @@ package com.dxh.BookingBe.dto.request;
 
 import com.dxh.BookingBe.enums.Gender;
 import com.dxh.BookingBe.validator.DobConstraint;
+import com.dxh.BookingBe.validator.EnumValue;
 import com.dxh.BookingBe.validator.GenderSubset;
 import com.dxh.BookingBe.validator.PhoneNumber;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,8 +36,10 @@ public class UserCreationRequest {
     String phoneNumber;
 
 
+//    @EnumValue(name = "gender", enumClass = Gender.class)
     @GenderSubset(anyOf = {Gender.MALE, Gender.FEMALE, Gender.OTHER},message = "INVALID_GENDER")
     String gender;
+
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")

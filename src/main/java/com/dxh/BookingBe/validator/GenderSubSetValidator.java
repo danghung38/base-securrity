@@ -31,6 +31,7 @@ public class GenderSubSetValidator implements ConstraintValidator<GenderSubset, 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) return true; // Cho phép null
-        return Arrays.asList(genderValues).contains(value.toUpperCase()); // Kiểm tra giá trị
+        return Arrays.stream(genderValues)
+                .anyMatch(g -> g.equalsIgnoreCase(value)); // Kiểm tra giá trị
     }
 }

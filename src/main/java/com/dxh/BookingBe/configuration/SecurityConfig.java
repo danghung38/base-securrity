@@ -29,8 +29,14 @@ public class SecurityConfig {
 //            "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
 //    };
 
-    private final String[] PUBLIC_ENDPOINTS = {
-            "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    private final String[] PUBLIC_POST_ENDPOINTS = {
+            "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/users"
+    };
+
+    private final String[] PUBLIC_GET_ENDPOINTS = {
+            "/users/list",
+            "/users/list-with-sort-by-multiple-columns",
+            "/users/advance-search-with-specification"
     };
 
     private final String[] API_DOC_ENDPOINTS = {
@@ -55,7 +61,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+                        request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                                 .requestMatchers(API_DOC_ENDPOINTS).permitAll()
                                 //phân quyền trên config/hoặc trên method
 //                        .requestMatchers(HttpMethod.GET,"/users").hasRole(Role.ADMIN.name())

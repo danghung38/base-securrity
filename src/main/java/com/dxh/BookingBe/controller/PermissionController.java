@@ -5,6 +5,7 @@ import com.dxh.BookingBe.dto.request.PermissionRequest;
 import com.dxh.BookingBe.dto.response.ApiResponse;
 import com.dxh.BookingBe.dto.response.PermissionResponse;
 import com.dxh.BookingBe.service.impl.PermissionService;
+import com.dxh.BookingBe.service.interfac.IPermissionService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,26 +20,26 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class PermissionController {
-    PermissionService permissionService;
+    IPermissionService iPermissionService;
 
     @PostMapping
     ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request){
         return ApiResponse.<PermissionResponse>builder()
                 .code(200)
-                .result(permissionService.create(request))
+                .result(iPermissionService.create(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<PermissionResponse>> getAll(){
         return ApiResponse.<List<PermissionResponse>>builder()
-                .result(permissionService.getAll())
+                .result(iPermissionService.getAll())
                 .build();
     }
 
     @DeleteMapping("/{permission}")
     ApiResponse<Void> delete(@PathVariable String permission){
-        permissionService.delete(permission);
+        iPermissionService.delete(permission);
         return ApiResponse.<Void>builder().build();
     }
 }

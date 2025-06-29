@@ -5,6 +5,7 @@ import com.dxh.BookingBe.dto.request.RoleRequest;
 import com.dxh.BookingBe.dto.response.ApiResponse;
 import com.dxh.BookingBe.dto.response.RoleResponse;
 import com.dxh.BookingBe.service.impl.RoleService;
+import com.dxh.BookingBe.service.interfac.IRoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -19,25 +20,25 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class RoleController {
-    RoleService roleService;
+    IRoleService iRoleService;
 
     @PostMapping
     ApiResponse<RoleResponse> create(@RequestBody RoleRequest request){
         return ApiResponse.<RoleResponse>builder()
-                .result(roleService.create(request))
+                .result(iRoleService.create(request))
                 .build();
     }
 
     @GetMapping
     ApiResponse<List<RoleResponse>> getAll(){
         return ApiResponse.<List<RoleResponse>>builder()
-                .result(roleService.getAll())
+                .result(iRoleService.getAll())
                 .build();
     }
 
     @DeleteMapping("/{roleId}")
     ApiResponse<Void> delete(@PathVariable Long roleId){
-        roleService.delete(roleId);
+        iRoleService.delete(roleId);
         return ApiResponse.<Void>builder().build();
     }
 }
